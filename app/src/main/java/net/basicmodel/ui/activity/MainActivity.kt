@@ -1,5 +1,7 @@
 package net.basicmodel.ui.activity
 
+import androidx.viewpager.widget.ViewPager
+import com.flyco.tablayout.listener.OnTabSelectListener
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.xxxxxxh.mailv2.utils.Constant
@@ -9,8 +11,9 @@ import net.basicmodel.base.BaseActivity
 import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
+import net.basicmodel.utils.KeyboardManager
 
-class MainActivity : BaseActivity(), OnPermissionCallback {
+class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -33,6 +36,19 @@ class MainActivity : BaseActivity(), OnPermissionCallback {
         views.add(ScramFragment())
         views.add(TourFragment())
         tab.setViewPager(viewpager, Constant.tab, this, views)
+        viewpager.setOnPageChangeListener(this)
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        KeyboardManager.get().hideKeyboard(this)
+    }
+
+    override fun onPageSelected(position: Int) {
+
+    }
+
+    override fun onPageScrollStateChanged(state: Int) {
+
     }
 
 }
