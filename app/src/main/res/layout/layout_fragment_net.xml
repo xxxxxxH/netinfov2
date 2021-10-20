@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/username"
+        <LinearLayout
+            android:id="@+id/layoutContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="Username"/>
-    </com.google.android.material.textfield.TextInputLayout>
-</LinearLayout>
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize" />
+
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginTop="10dp" />
+
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/room"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginTop="10dp" />
+
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/point"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
