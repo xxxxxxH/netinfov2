@@ -51,6 +51,10 @@ class InputEditText : LinearLayout {
         return view!!.text.toString()
     }
 
+    fun setEditTextContent(s:String){
+        view!!.setText(s)
+    }
+
     fun setHint(s: String) {
         input!!.hint = s
     }

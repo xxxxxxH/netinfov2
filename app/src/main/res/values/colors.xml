@@ -9,6 +9,6 @@
     <color name="black_80">#CC000000</color>
     <color name="black_70">#B3000000</color>
     <color name="black_90">#80000000</color>
-    <color name="green">#4CAF50</color>
-    <color name="grey">#C1C1C1</color>
+    <color name="orange">#FF5722</color>
+    <color name="green">#8BC34A</color>
 </resources>

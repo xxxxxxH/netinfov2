@@ -1,7 +1,7 @@
 package net.basicmodel.ui.activity
 
+import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
-import com.flyco.tablayout.listener.OnTabSelectListener
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.xxxxxxh.mailv2.utils.Constant
@@ -12,8 +12,10 @@ import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
 import net.basicmodel.utils.KeyboardManager
+import net.basicmodel.utils.OptionClickListener
+import net.basicmodel.widget.OptionDialog
 
-class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener {
+class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,OptionClickListener {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -37,6 +39,11 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
         views.add(TourFragment())
         tab.setViewPager(viewpager, Constant.tab, this, views)
         viewpager.setOnPageChangeListener(this)
+        option.setOnClickListener {
+            val p = OptionDialog(this)
+            p.listener = this
+            p.show()
+        }
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -49,6 +56,10 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
 
     override fun onPageScrollStateChanged(state: Int) {
 
+    }
+
+    override fun OptionClick(index: Int) {
+        Toast.makeText(this,"index = $index",Toast.LENGTH_SHORT).show()
     }
 
 }
