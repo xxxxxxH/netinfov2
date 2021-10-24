@@ -8,14 +8,20 @@ import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.activity_main.*
 import net.basicmodel.R
 import net.basicmodel.base.BaseActivity
+import net.basicmodel.event.MessageEvent
 import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
 import net.basicmodel.utils.KeyboardManager
 import net.basicmodel.utils.OptionClickListener
 import net.basicmodel.widget.OptionDialog
+import org.greenrobot.eventbus.EventBus
 
 class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,OptionClickListener {
+
+    var netFragment:NetFragment?=null
+    var scramFragment:ScramFragment?=null
+    var tourFragment:TourFragment?=null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -34,9 +40,12 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
     }
 
     private fun initViewpager() {
-        views.add(NetFragment())
-        views.add(ScramFragment())
-        views.add(TourFragment())
+        netFragment = NetFragment()
+        scramFragment = ScramFragment()
+        tourFragment = TourFragment()
+        views.add(netFragment!!)
+        views.add(scramFragment!!)
+        views.add(tourFragment!!)
         tab.setViewPager(viewpager, Constant.tab, this, views)
         viewpager.setOnPageChangeListener(this)
         option.setOnClickListener {
@@ -59,7 +68,23 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
     }
 
     override fun OptionClick(index: Int) {
-        Toast.makeText(this,"index = $index",Toast.LENGTH_SHORT).show()
+        when(index){
+            0 ->{
+                EventBus.getDefault().post(MessageEvent("filed"))
+            }
+            1 ->{
+
+            }
+            2 ->{
+
+            }
+            3 ->{
+
+            }
+            4 ->{
+
+            }
+        }
     }
 
 }

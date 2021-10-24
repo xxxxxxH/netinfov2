@@ -8,5 +8,5 @@ package net.basicmodel.utils
  * Desc :
  */
 interface OnOptionClickListener {
-    fun onClick(tag:String)
+    fun onClick(vararg tag:String)
 }

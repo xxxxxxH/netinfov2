@@ -7,11 +7,14 @@ import com.flyco.animation.Attention.Swing
 import com.flyco.dialog.widget.base.BaseDialog
 import kotlinx.android.synthetic.main.layout_dialog_net.*
 import net.basicmodel.R
+import net.basicmodel.utils.OnDialogClickListener
 
 class NetDetailsDialog(context: Context) : BaseDialog<NetDetailsDialog>(context) {
+
+    var listenter: OnDialogClickListener? = null
+
     override fun onCreateView(): View {
         widthScale(0.85f)
-        showAnim(Swing())
         return View.inflate(context, R.layout.layout_dialog_net, null)
     }
 
@@ -22,10 +25,11 @@ class NetDetailsDialog(context: Context) : BaseDialog<NetDetailsDialog>(context)
         portNum.setEditTextContent("2")
         portNum.view!!.isEnabled = false
         dialog_cancel_add_net.setOnClickListener {
-
+            dismiss()
         }
         dialog_confirm_add_net.setOnClickListener {
-
+            listenter!!.confirmClick(boardNum.getEditTextContent())
+            dismiss()
         }
     }
 }

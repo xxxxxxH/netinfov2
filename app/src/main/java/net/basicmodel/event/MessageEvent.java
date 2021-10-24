@@ -9,13 +9,13 @@ package net.basicmodel.event;
  */
 public class MessageEvent {
 
-    public final String[] message;
+    public final Object[] message;
 
-    public MessageEvent(String... message) {
+    public MessageEvent(Object... message) {
         this.message = message;
     }
 
-    public String[] getMessage() {
+    public Object[] getMessage() {
         return message;
     }
 }

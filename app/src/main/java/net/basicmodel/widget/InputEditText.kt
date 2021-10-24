@@ -43,7 +43,19 @@ class InputEditText : LinearLayout {
         return v
     }
 
-    fun getEditTextView():EditText{
+    fun setMargin(top: Int, bottom: Int, left: Int, right: Int) {
+        input!!.let {
+            it.layoutParams = it.layoutParams.apply {
+                (this as LinearLayout.LayoutParams).setMargins(left, top, right, bottom)
+            }
+        }
+    }
+
+    fun getInputLayout(): TextInputLayout {
+        return input!!
+    }
+
+    fun getEditTextView(): EditText {
         return view!!
     }
 
@@ -51,7 +63,7 @@ class InputEditText : LinearLayout {
         return view!!.text.toString()
     }
 
-    fun setEditTextContent(s:String){
+    fun setEditTextContent(s: String) {
         view!!.setText(s)
     }
 

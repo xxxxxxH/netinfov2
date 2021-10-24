@@ -14,25 +14,29 @@ class OptionDialog(context: Context) : BaseDialog<OptionDialog>(context) {
 
     override fun onCreateView(): View {
         widthScale(0.85f)
-        showAnim(Swing())
         return View.inflate(context, R.layout.layout_pop, null)
     }
 
     override fun setUiBeforShow() {
         filed.setOnClickListener {
             listener?.OptionClick(0)
+            dismiss()
         }
         add.setOnClickListener {
             listener?.OptionClick(1)
+            dismiss()
         }
         delete.setOnClickListener {
             listener?.OptionClick(2)
+            dismiss()
         }
         save.setOnClickListener {
             listener?.OptionClick(3)
+            dismiss()
         }
         submit.setOnClickListener {
             listener?.OptionClick(4)
+            dismiss()
         }
     }
 }

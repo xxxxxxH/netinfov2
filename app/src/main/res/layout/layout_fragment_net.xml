@@ -17,31 +17,32 @@
             <net.basicmodel.widget.EditViewContainer
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"/>
 
             <net.basicmodel.widget.EditViewContainer
                 android:id="@+id/location"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:layout_marginTop="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
 
             <net.basicmodel.widget.EditViewContainer
                 android:id="@+id/room"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:layout_marginTop="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
 
             <net.basicmodel.widget.EditViewContainer
                 android:id="@+id/point"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:layout_marginTop="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="100dp"
@@ -101,6 +102,13 @@
                     android:scaleType="center"
                     android:src="@mipmap/activity_main_add_icon" />
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/customRoot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
