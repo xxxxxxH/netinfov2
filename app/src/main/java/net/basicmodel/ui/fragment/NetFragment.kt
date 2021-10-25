@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.tools.ToastUtils
+import com.tencent.mmkv.MMKV
 import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.layout_fragment_net.*
 import net.basicmodel.R
@@ -17,13 +19,11 @@ import net.basicmodel.adapter.NetInfoAdapter
 import net.basicmodel.base.BaseFragment
 import net.basicmodel.entity.CustomFiledEntity
 import net.basicmodel.entity.NetDetailsEntity
+import net.basicmodel.entity.NetInfoEntityNew
 import net.basicmodel.event.MessageEvent
 import net.basicmodel.ui.activity.NetDetailsActivity
 import net.basicmodel.utils.*
-import net.basicmodel.widget.CustomDialog
-import net.basicmodel.widget.EditViewContainer
-import net.basicmodel.widget.NetDetailsDialog
-import net.basicmodel.widget.SelectDialog
+import net.basicmodel.widget.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -85,6 +85,14 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 entity.content = tag[2]
                 CustomFiledManager.get().addCustomItem(customRoot, entity)
             }
+            "name" -> {
+                val data = MMKVUtils.getKeys("net")
+                val d = activity?.let { NameDialog(it, data) }
+                d!!.show()
+            }
+            "refresh" -> {
+
+            }
         }
     }
 
@@ -117,7 +125,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
         requireActivity().startActivity(i)
     }
 
-    private fun setNetInfoAdapter(data: ArrayList<NetDetailsEntity>) {
+    private fun setNetInfoAdapter(data: ArrayList<NetDetailsEntity>?) {
         netInfoAdapter = NetInfoAdapter(R.layout.layout_item_netinfo, data)
         net_recycler.layoutManager = LinearLayoutManager(activity)
         net_recycler.adapter = netInfoAdapter
@@ -141,31 +149,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: MessageEvent) {
-        val msg = event.getMessage()
-        when (msg[0] as String) {
-            "netInfo" -> {
-                val data = msg[1] as ArrayList<NetDetailsEntity>
-                if (netInfoAdapter == null) {
-                    setNetInfoAdapter(data)
-                } else {
-                    netInfoAdapter!!.addData(data)
-                }
-            }
-            "dataChanged" -> {
-                netInfoAdapter!!.setNewInstance(msg[1] as ArrayList<NetDetailsEntity>)
-            }
-            "filed" -> {
-
-                val d = activity?.let { CustomDialog(it) }
-                d!!.listener = this
-                d.show()
-            }
-        }
-    }
-
-    private fun setImgAdapter(data: ArrayList<String>) {
+    private fun setImgAdapter(data: ArrayList<String>?) {
         imgAdapter = ImageAdapter(R.layout.layout_item_img, data)
         img_recycler.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -194,9 +178,9 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
         }
     }
 
-    fun getData() {
+    fun getData(): NetInfoEntityNew? {
         val nameStr = name.getInputView().getEditTextContent()
-        if (TextUtils.isEmpty(nameStr)) return
+        if (TextUtils.isEmpty(nameStr)) return null
         val locationStr = locationTv?.text.toString()
         val roomStr = room.getInputView().getEditTextContent()
         val point = point.getInputView().getEditTextContent()
@@ -204,6 +188,80 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
             if (netInfoAdapter == null) null else netInfoAdapter!!.data as ArrayList<NetDetailsEntity>
         val imgData: ArrayList<String>? =
             if (imgAdapter == null) null else imgAdapter!!.data as ArrayList<String>
+        val customData: ArrayList<CustomFiledEntity>? =
+            if (customRoot.childCount == 0) null else CustomFiledManager.get()
+                .getCustomData(customRoot)
+        return NetInfoEntityNew(nameStr, locationStr, roomStr, point, netInfo, imgData, customData)
     }
 
+    fun setData(entityNew: NetInfoEntityNew) {
+        name.getInputView().setEditTextContent(entityNew.name)
+        locationTv?.setText(entityNew.location)
+        room.getInputView().setEditTextContent(entityNew.room)
+        point.getInputView().setEditTextContent(entityNew.point)
+        val netInfo = entityNew.infos
+        setNetInfoAdapter(netInfo)
+        val imgData = entityNew.imsg
+        setImgAdapter(imgData)
+        val customData = entityNew.customFiled
+        customData?.let {
+            CustomFiledManager.get().removeCustomItem(customRoot)
+            for (item in it) {
+                CustomFiledManager.get().addCustomItem(customRoot, item)
+            }
+        }
+    }
+
+    fun clear() {
+        name.getInputView().setEditTextContent("")
+        room.getInputView().setEditTextContent("")
+        point.getInputView().setEditTextContent("")
+        setNetInfoAdapter(null)
+        setImgAdapter(null)
+        CustomFiledManager.get().removeCustomItem(customRoot)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: MessageEvent) {
+        val msg = event.getMessage()
+        when (msg[0] as String) {
+            "netInfo" -> {
+                val data = msg[1] as ArrayList<NetDetailsEntity>
+                if (netInfoAdapter == null) {
+                    setNetInfoAdapter(data)
+                } else {
+                    netInfoAdapter!!.addData(data)
+                }
+            }
+            "dataChanged" -> {
+                netInfoAdapter!!.setNewInstance(msg[1] as ArrayList<NetDetailsEntity>)
+            }
+            "filed" -> {
+                val d = activity?.let { CustomDialog(it) }
+                d!!.listener = this
+                d.show()
+            }
+            "save" -> {
+                val s = name.getInputView().getEditTextContent()
+                if (!TextUtils.isEmpty(s)) {
+                    MMKVUtils.saveKeys("net", s)
+                    MMKV.defaultMMKV()!!.encode(s, getData())
+                } else {
+                    ToastUtils.s(activity, "请输入网元名称")
+                }
+            }
+            "nameSelect" -> {
+                val data = MMKV.defaultMMKV()!!
+                    .decodeParcelable(msg[1] as String, NetInfoEntityNew::class.java)
+                data?.let {
+                    setData(it)
+                }
+            }
+            "delete" -> {
+                MMKV.defaultMMKV()!!.remove(name.getInputView().getEditTextContent())
+                MMKVUtils.deleteKey(name.getInputView().getEditTextContent(), "net")
+                clear()
+            }
+        }
+    }
 }

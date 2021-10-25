@@ -70,4 +70,8 @@ class InputEditText : LinearLayout {
     fun setHint(s: String) {
         input!!.hint = s
     }
+
+    fun getHint(): String {
+        return input!!.hint.toString()
+    }
 }

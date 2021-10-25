@@ -30,6 +30,16 @@ class CustomFiledManager {
         parent.invalidate()
     }
 
+    fun getCustomData(parent: ViewGroup): ArrayList<CustomFiledEntity> {
+        val result = ArrayList<CustomFiledEntity>()
+        for (index in 0 until parent.childCount) {
+            val item = parent.getChildAt(index) as InputEditText
+            val entity = CustomFiledEntity(item.getHint(), item.getEditTextContent())
+            result.add(entity)
+        }
+        return result
+    }
+
     fun removeCustomItem(parent: ViewGroup) {
         parent.removeAllViews()
     }

@@ -13,6 +13,7 @@ import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
 import net.basicmodel.utils.KeyboardManager
+import net.basicmodel.utils.MMKVUtils
 import net.basicmodel.utils.OptionClickListener
 import net.basicmodel.widget.OptionDialog
 import org.greenrobot.eventbus.EventBus
@@ -76,10 +77,10 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
 
             }
             2 ->{
-
+                EventBus.getDefault().post(MessageEvent("delete"))
             }
             3 ->{
-
+                EventBus.getDefault().post(MessageEvent("save"))
             }
             4 ->{
 

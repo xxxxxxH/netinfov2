@@ -3,6 +3,7 @@ package net.basicmodel.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.tencent.mmkv.MMKV
 import java.util.ArrayList
 
 abstract class BaseActivity:AppCompatActivity() {
@@ -10,6 +11,7 @@ abstract class BaseActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
+        MMKV.initialize(this)
         initView()
     }
 
