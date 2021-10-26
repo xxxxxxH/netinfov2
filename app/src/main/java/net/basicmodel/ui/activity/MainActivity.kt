@@ -3,7 +3,7 @@ package net.basicmodel.ui.activity
 import androidx.viewpager.widget.ViewPager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import com.tencent.mmkv.MMKV
+import com.luck.picture.lib.tools.ToastUtils
 import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.activity_main.*
 import net.basicmodel.R
@@ -13,9 +13,14 @@ import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
 import net.basicmodel.utils.KeyboardManager
+import net.basicmodel.utils.MyLocationManager
 import net.basicmodel.utils.OptionClickListener
+import net.basicmodel.widget.LoadingDialog
 import net.basicmodel.widget.OptionDialog
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,
     OptionClickListener {
@@ -23,6 +28,7 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
     var netFragment: NetFragment? = null
     var scramFragment: ScramFragment? = null
     var tourFragment: TourFragment? = null
+    var dialog: LoadingDialog? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -53,6 +59,17 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
             val p = OptionDialog(this)
             p.listener = this
             p.show()
+        }
+    }
+
+    fun showDlg() {
+        dialog = LoadingDialog(this)
+        dialog!!.show()
+    }
+
+    fun closeDlg() {
+        if (dialog != null && dialog!!.isShowing) {
+            dialog!!.dismiss()
         }
     }
 
@@ -119,7 +136,7 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
                         EventBus.getDefault().post(MessageEvent("save1"))
                     }
                     2 -> {
-                        EventBus.getDefault().post(MessageEvent("save3"))
+                        EventBus.getDefault().post(MessageEvent("save2"))
                     }
                 }
             }
@@ -138,9 +155,14 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
             }
         }
     }
-    override fun onPause() {
-        super.onPause()
-//        MMKV.defaultMMKV()!!.clearAll()
+
+    fun getThemeText(index: Int): String {
+        when(index){
+            0 -> return "网元信息${MyLocationManager.get().formatDate(Date())}"
+            1 -> return "加扰信息${MyLocationManager.get().formatDate(Date())}"
+            2 -> return "光纤巡缆${MyLocationManager.get().formatDate(Date())}"
+        }
+        return  ""
     }
 
 }

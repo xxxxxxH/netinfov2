@@ -18,6 +18,7 @@ import net.basicmodel.base.BaseFragment
 import net.basicmodel.entity.CustomFiledEntity
 import net.basicmodel.entity.ScramEntityNew
 import net.basicmodel.event.MessageEvent
+import net.basicmodel.ui.activity.MainActivity
 import net.basicmodel.utils.*
 import net.basicmodel.widget.CustomDialog
 import net.basicmodel.widget.NameDialog
@@ -168,6 +169,7 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
     }
 
     override fun onLocationChanged(location: Location) {
+        (activity as MainActivity).closeDlg()
         val lot = MyLocationManager.get().formatDouble(location.longitude)
         val lat = MyLocationManager.get().formatDouble(location.latitude)
         scramLocation.getInputView().setEditTextContent(
@@ -210,7 +212,8 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 }
             }
             "scramLocation" -> {
-
+                (activity as MainActivity).showDlg()
+                scramId.getInputView().setEditTextContent("")
             }
             "customOk" -> {
                 val entity = CustomFiledEntity()

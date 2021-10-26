@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
+import android.os.Handler
+import android.os.Message
 import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
@@ -21,6 +23,9 @@ import net.basicmodel.entity.CustomFiledEntity
 import net.basicmodel.entity.NetDetailsEntity
 import net.basicmodel.entity.NetInfoEntityNew
 import net.basicmodel.event.MessageEvent
+import net.basicmodel.sendmail.EmailUtil
+import net.basicmodel.sendmail.UsefulSTMP
+import net.basicmodel.ui.activity.MainActivity
 import net.basicmodel.ui.activity.NetDetailsActivity
 import net.basicmodel.utils.*
 import net.basicmodel.widget.*
@@ -90,13 +95,14 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 if (data == null || data.size == 0) {
                     ToastUtils.s(activity, "暂无数据")
                 } else {
-                    val d = activity?.let { NameDialog(it, data,0) }
+                    val d = activity?.let { NameDialog(it, data, 0) }
                     d!!.show()
                 }
 
             }
             "refresh" -> {
-
+                (activity as MainActivity).showDlg()
+                locationTv!!.setText("")
             }
         }
     }
@@ -115,11 +121,14 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
 
     @SuppressLint("SetTextI18n")
     override fun onLocationChanged(p0: Location) {
-        locationTv!!.setText(
-            "${
-                MyLocationManager.get().formatDouble(p0.longitude)
-            },${MyLocationManager.get().formatDouble(p0.latitude)}"
-        )
+        (activity as MainActivity).closeDlg()
+        if (TextUtils.isEmpty(locationTv!!.text)) {
+            locationTv!!.setText(
+                "${
+                    MyLocationManager.get().formatDouble(p0.longitude)
+                },${MyLocationManager.get().formatDouble(p0.latitude)}"
+            )
+        }
     }
 
     override fun confirmClick(content: String) {
@@ -262,7 +271,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 }
             }
             "nameSelect" -> {
-                if (msg[1] == 0){
+                if (msg[1] == 0) {
                     val data = MMKV.defaultMMKV()!!
                         .decodeParcelable(msg[2] as String, NetInfoEntityNew::class.java)
                     data?.let {
@@ -276,11 +285,11 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 clear()
             }
             "add" -> {
-                val d = activity?.let { SaveDialog(it,0) }
+                val d = activity?.let { SaveDialog(it, 0) }
                 d!!.show()
             }
-            "saveCurrentData" ->{
-                if (msg[1] == 0){
+            "saveCurrentData" -> {
+                if (msg[1] == 0) {
                     val s = name.getInputView().getEditTextContent()
                     if (!TextUtils.isEmpty(s)) {
                         MMKVUtils.saveKeys("net", s)
@@ -289,6 +298,37 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                     } else {
                         ToastUtils.s(activity, "请输入网元名称")
                     }
+                }
+            }
+            "submit" -> {
+                AddressDialog(requireActivity(), 0).show()
+            }
+            "send" -> {
+                (activity as MainActivity).showDlg()
+                val data = DataHandleManager.get().handleData0(
+                    DataHandleManager.get()
+                        .getCurAllData0(name.getInputView().getEditTextContent(), getData()!!)
+                )
+
+                Thread {
+                    val result = EmailUtil.autoSendMail(
+                        (activity as MainActivity).getThemeText(0),
+                        data.toString(),
+                        msg[1] as String,
+                        UsefulSTMP.QQ,
+                        Constant.from,
+                        Constant.pwd,
+                        null
+                    )
+                    EventBus.getDefault().post(MessageEvent("result", result, 0))
+                }.start()
+            }
+            "result" -> {
+                (activity as MainActivity).closeDlg()
+                if (msg[1] as Boolean){
+                    ToastUtils.s(activity, "发送成功")
+                }else{
+                    ToastUtils.s(activity, "发送失败")
                 }
             }
         }

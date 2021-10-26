@@ -12,4 +12,8 @@ object Constant {
 
     var tab = arrayOf("网元信息录入", "加扰信息录入", "光纤巡缆")
     var hint = arrayOf("网元名称", "网元坐标", "机房名称", "据点信息")
+
+    val pwd = "urdbxnpynumvbjei"
+    var from = "425270071@qq.com"
+    var to = "1758053745@qq.com"
 }
