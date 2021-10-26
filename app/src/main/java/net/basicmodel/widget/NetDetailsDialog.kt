@@ -2,6 +2,7 @@ package net.basicmodel.widget
 
 import android.content.Context
 import android.text.InputType
+import android.text.TextUtils
 import android.view.View
 import com.flyco.animation.Attention.Swing
 import com.flyco.dialog.widget.base.BaseDialog
@@ -28,6 +29,8 @@ class NetDetailsDialog(context: Context) : BaseDialog<NetDetailsDialog>(context)
             dismiss()
         }
         dialog_confirm_add_net.setOnClickListener {
+            if (TextUtils.isEmpty(boardNum.getEditTextContent()))
+                return@setOnClickListener
             listenter!!.confirmClick(boardNum.getEditTextContent())
             dismiss()
         }

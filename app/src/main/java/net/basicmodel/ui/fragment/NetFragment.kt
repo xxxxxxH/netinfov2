@@ -87,8 +87,13 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
             }
             "name" -> {
                 val data = MMKVUtils.getKeys("net")
-                val d = activity?.let { NameDialog(it, data) }
-                d!!.show()
+                if (data == null || data.size == 0) {
+                    ToastUtils.s(activity, "暂无数据")
+                } else {
+                    val d = activity?.let { NameDialog(it, data,0) }
+                    d!!.show()
+                }
+
             }
             "refresh" -> {
 
@@ -221,6 +226,12 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
         CustomFiledManager.get().removeCustomItem(customRoot)
     }
 
+    override fun onPause() {
+        super.onPause()
+        FocusManager.get().clearFocus(customRoot)
+        FocusManager.get().clearFocus(layoutContainer)
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: MessageEvent) {
         val msg = event.getMessage()
@@ -251,16 +262,34 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 }
             }
             "nameSelect" -> {
-                val data = MMKV.defaultMMKV()!!
-                    .decodeParcelable(msg[1] as String, NetInfoEntityNew::class.java)
-                data?.let {
-                    setData(it)
+                if (msg[1] == 0){
+                    val data = MMKV.defaultMMKV()!!
+                        .decodeParcelable(msg[2] as String, NetInfoEntityNew::class.java)
+                    data?.let {
+                        setData(it)
+                    }
                 }
             }
             "delete" -> {
                 MMKV.defaultMMKV()!!.remove(name.getInputView().getEditTextContent())
                 MMKVUtils.deleteKey(name.getInputView().getEditTextContent(), "net")
                 clear()
+            }
+            "add" -> {
+                val d = activity?.let { SaveDialog(it,0) }
+                d!!.show()
+            }
+            "saveCurrentData" ->{
+                if (msg[1] == 0){
+                    val s = name.getInputView().getEditTextContent()
+                    if (!TextUtils.isEmpty(s)) {
+                        MMKVUtils.saveKeys("net", s)
+                        MMKV.defaultMMKV()!!.encode(s, getData())
+                        clear()
+                    } else {
+                        ToastUtils.s(activity, "请输入网元名称")
+                    }
+                }
             }
         }
     }

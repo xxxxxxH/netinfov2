@@ -1,9 +1,9 @@
 package net.basicmodel.ui.activity
 
-import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
+import com.tencent.mmkv.MMKV
 import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.activity_main.*
 import net.basicmodel.R
@@ -13,16 +13,16 @@ import net.basicmodel.ui.fragment.NetFragment
 import net.basicmodel.ui.fragment.ScramFragment
 import net.basicmodel.ui.fragment.TourFragment
 import net.basicmodel.utils.KeyboardManager
-import net.basicmodel.utils.MMKVUtils
 import net.basicmodel.utils.OptionClickListener
 import net.basicmodel.widget.OptionDialog
 import org.greenrobot.eventbus.EventBus
 
-class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,OptionClickListener {
+class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,
+    OptionClickListener {
 
-    var netFragment:NetFragment?=null
-    var scramFragment:ScramFragment?=null
-    var tourFragment:TourFragment?=null
+    var netFragment: NetFragment? = null
+    var scramFragment: ScramFragment? = null
+    var tourFragment: TourFragment? = null
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -69,23 +69,78 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
     }
 
     override fun OptionClick(index: Int) {
-        when(index){
-            0 ->{
-                EventBus.getDefault().post(MessageEvent("filed"))
-            }
-            1 ->{
+        when (index) {
+            0 -> {
+                when (tab.currentTab) {
+                    0 -> {
+                        EventBus.getDefault().post(MessageEvent("filed"))
+                    }
+                    1 -> {
+                        EventBus.getDefault().post(MessageEvent("filed1"))
+                    }
+                    2 -> {
+                        EventBus.getDefault().post(MessageEvent("filed2"))
+                    }
+                }
 
             }
-            2 ->{
-                EventBus.getDefault().post(MessageEvent("delete"))
+            1 -> {
+                when (tab.currentTab) {
+                    0 -> {
+                        EventBus.getDefault().post(MessageEvent("add"))
+                    }
+                    1 -> {
+                        EventBus.getDefault().post(MessageEvent("add1"))
+                    }
+                    2 -> {
+                        EventBus.getDefault().post(MessageEvent("add2"))
+                    }
+                }
             }
-            3 ->{
-                EventBus.getDefault().post(MessageEvent("save"))
+            2 -> {
+                when (tab.currentTab) {
+                    0 -> {
+                        EventBus.getDefault().post(MessageEvent("delete"))
+                    }
+                    1 -> {
+                        EventBus.getDefault().post(MessageEvent("delete1"))
+                    }
+                    2 -> {
+                        EventBus.getDefault().post(MessageEvent("delete2"))
+                    }
+                }
             }
-            4 ->{
-
+            3 -> {
+                when (tab.currentTab) {
+                    0 -> {
+                        EventBus.getDefault().post(MessageEvent("save"))
+                    }
+                    1 -> {
+                        EventBus.getDefault().post(MessageEvent("save1"))
+                    }
+                    2 -> {
+                        EventBus.getDefault().post(MessageEvent("save3"))
+                    }
+                }
+            }
+            4 -> {
+                when (tab.currentTab) {
+                    0 -> {
+                        EventBus.getDefault().post(MessageEvent("submit"))
+                    }
+                    1 -> {
+                        EventBus.getDefault().post(MessageEvent("submit1"))
+                    }
+                    2 -> {
+                        EventBus.getDefault().post(MessageEvent("submit2"))
+                    }
+                }
             }
         }
+    }
+    override fun onPause() {
+        super.onPause()
+//        MMKV.defaultMMKV()!!.clearAll()
     }
 
 }

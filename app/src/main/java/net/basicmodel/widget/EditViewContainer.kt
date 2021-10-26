@@ -43,6 +43,8 @@ class EditViewContainer : LinearLayout {
         inputEditText = v.findViewById(R.id.inputEdit)
         imageView = v.findViewById(R.id.optionRight)
         this.imageView!!.setOnClickListener {
+            if (listener == null)
+                return@setOnClickListener
             listener!!.onClick(tag)
         }
         return v

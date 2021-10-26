@@ -10,7 +10,7 @@ import net.basicmodel.adapter.NameAdapter
 import net.basicmodel.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
-class NameDialog(context: Context, val data: ArrayList<String>) : BaseDialog<NameDialog>(context) {
+class NameDialog(context: Context, val data: ArrayList<String>,val index :Int) : BaseDialog<NameDialog>(context) {
     override fun onCreateView(): View {
         widthScale(0.85f)
         return View.inflate(context, R.layout.layout_dialog_name, null)
@@ -21,7 +21,7 @@ class NameDialog(context: Context, val data: ArrayList<String>) : BaseDialog<Nam
         dialog_recycler.layoutManager = LinearLayoutManager(context)
         dialog_recycler.adapter = nameAdapter
         nameAdapter.setOnItemClickListener { adapter, view, position ->
-            EventBus.getDefault().post(MessageEvent("nameSelect", adapter.data[position] as String))
+            EventBus.getDefault().post(MessageEvent("nameSelect",index, adapter.data[position] as String))
             dismiss()
         }
     }

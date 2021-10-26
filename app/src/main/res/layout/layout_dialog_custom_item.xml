@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/white"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:padding="20dp"
+    >
 
     <net.basicmodel.widget.InputEditText
         android:id="@+id/fieldName"

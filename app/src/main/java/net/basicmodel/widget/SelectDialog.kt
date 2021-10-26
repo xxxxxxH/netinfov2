@@ -12,6 +12,7 @@ import net.basicmodel.utils.PhotoManager
 class SelectDialog(context: Context, val activity: Activity, val callBack: PhotoCallBack) :
     BaseDialog<SelectDialog>(context) {
     override fun onCreateView(): View {
+        widthScale(0.85f)
         return View.inflate(context, R.layout.layout_dialog_select_pic, null)
     }
 
