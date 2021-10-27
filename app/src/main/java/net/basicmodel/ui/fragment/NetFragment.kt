@@ -4,9 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
-import android.os.Handler
-import android.os.Message
 import android.text.TextUtils
+import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +25,7 @@ import net.basicmodel.event.MessageEvent
 import net.basicmodel.sendmail.EmailUtil
 import net.basicmodel.sendmail.UsefulSTMP
 import net.basicmodel.ui.activity.MainActivity
+import net.basicmodel.ui.activity.MapActivity
 import net.basicmodel.ui.activity.NetDetailsActivity
 import net.basicmodel.utils.*
 import net.basicmodel.widget.*
@@ -71,7 +71,6 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                         container.setTag("refresh")
                         val edit = container.getInputView().getEditTextView()
                         locationTv = edit
-                        edit.isEnabled = false
                     }
                     else -> {
                         imageView.visibility = View.GONE
@@ -101,12 +100,13 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
 
             }
             "refresh" -> {
-                (activity as MainActivity).showDlg()
+                activity?.let { LoadingDialogManager.get().show(it) }
                 locationTv!!.setText("")
             }
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initClick() {
         net_img_add.setOnClickListener {
             val d = activity?.let { it1 -> NetDetailsDialog(it1) }
@@ -117,13 +117,23 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
             val d = SelectDialog(requireActivity(), requireActivity(), this)
             d.show()
         }
+        location.getInputView().getEditTextView().setOnTouchListener { p0, p1 ->
+            p1?.let {
+                if (it.action == MotionEvent.ACTION_DOWN) {
+                    val i = Intent(activity, MapActivity::class.java)
+                    i.putExtra("index", 0)
+                    startActivity(i)
+                }
+            }
+            false
+        }
     }
 
     @SuppressLint("SetTextI18n")
     override fun onLocationChanged(p0: Location) {
-        (activity as MainActivity).closeDlg()
-        if (TextUtils.isEmpty(locationTv!!.text)) {
-            locationTv!!.setText(
+        LoadingDialogManager.get().close()
+        if (TextUtils.isEmpty(location.getInputView().getEditTextContent())) {
+            location.getInputView().setEditTextContent(
                 "${
                     MyLocationManager.get().formatDouble(p0.longitude)
                 },${MyLocationManager.get().formatDouble(p0.latitude)}"
@@ -304,7 +314,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 AddressDialog(requireActivity(), 0).show()
             }
             "send" -> {
-                (activity as MainActivity).showDlg()
+                activity?.let { LoadingDialogManager.get().show(it) }
                 val data = DataHandleManager.get().handleData0(
                     DataHandleManager.get()
                         .getCurAllData0(name.getInputView().getEditTextContent(), getData()!!)
@@ -324,11 +334,18 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 }.start()
             }
             "result" -> {
-                (activity as MainActivity).closeDlg()
-                if (msg[1] as Boolean){
+                LoadingDialogManager.get().close()
+                if (msg[1] as Boolean && msg[2] == 0) {
+                    DataHandleManager.get().deleteData("net")
+                    clear()
                     ToastUtils.s(activity, "发送成功")
-                }else{
+                } else {
                     ToastUtils.s(activity, "发送失败")
+                }
+            }
+            "map" -> {
+                if (msg[1] == 0) {
+                    location.getInputView().setEditTextContent("${msg[2]},${msg[3]}")
                 }
             }
         }

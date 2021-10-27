@@ -108,4 +108,15 @@ class DataHandleManager {
         }
         return result
     }
+
+    fun deleteData(key: String){
+        val keySet = MMKV.defaultMMKV()!!.decodeStringSet(key)
+        if (keySet!=null){
+            for (item in keySet){
+                MMKV.defaultMMKV()!!.removeValueForKey(item)
+            }
+            keySet.clear()
+            MMKV.defaultMMKV()!!.encode(key, keySet)
+        }
+    }
 }

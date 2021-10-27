@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.NetDetailsActivity" />
+        <activity android:name=".ui.activity.MapActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -28,6 +29,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="154f46273a52c87cfbebfec0702e9002"/>
+        <service
+            android:name="com.amap.api.location.APSService"
+            android:foregroundServiceType="location" />
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

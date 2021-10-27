@@ -1,28 +1,29 @@
 package net.basicmodel.ui.fragment
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.text.TextUtils
+import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.ToastUtils
 import com.tencent.mmkv.MMKV
-import kotlinx.android.synthetic.main.layout_fragment_scram.*
+import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.layout_fragment_tour.*
-import kotlinx.android.synthetic.main.layout_fragment_tour.img_add
-import kotlinx.android.synthetic.main.layout_fragment_tour.img_recycler
 import net.basicmodel.R
 import net.basicmodel.adapter.ImageAdapter
 import net.basicmodel.base.BaseFragment
 import net.basicmodel.entity.CustomFiledEntity
 import net.basicmodel.entity.TourEntityNew
 import net.basicmodel.event.MessageEvent
+import net.basicmodel.sendmail.EmailUtil
+import net.basicmodel.sendmail.UsefulSTMP
 import net.basicmodel.ui.activity.MainActivity
+import net.basicmodel.ui.activity.MapActivity
 import net.basicmodel.utils.*
-import net.basicmodel.widget.CustomDialog
-import net.basicmodel.widget.NameDialog
-import net.basicmodel.widget.SaveDialog
-import net.basicmodel.widget.SelectDialog
+import net.basicmodel.widget.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -53,9 +54,20 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
         tourLocation.setListener(this)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initClick() {
         img_add.setOnClickListener {
             SelectDialog(requireActivity(), requireActivity(), this).show()
+        }
+        tourLocation.getInputView().getEditTextView().setOnTouchListener { p0, p1 ->
+            p1?.let {
+                if (it.action == MotionEvent.ACTION_DOWN) {
+                    val i = Intent(activity, MapActivity::class.java)
+                    i.putExtra("index", 2)
+                    startActivity(i)
+                }
+            }
+            false
         }
     }
 
@@ -71,7 +83,7 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 }
             }
             "tourRefresh" -> {
-                (activity as MainActivity).showDlg()
+                activity?.let { LoadingDialogManager.get().show(it) }
                 tourLocation.getInputView().setEditTextContent("")
             }
             "customOk" -> {
@@ -84,7 +96,7 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
     }
 
     override fun onLocationChanged(p0: Location) {
-        (activity as MainActivity).closeDlg()
+        LoadingDialogManager.get().close()
         val lot = MyLocationManager.get().formatDouble(p0.longitude)
         val lat = MyLocationManager.get().formatDouble(p0.latitude)
         tourLocation.getInputView().setEditTextContent(
@@ -159,8 +171,8 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
 
     override fun onPause() {
         super.onPause()
-        FocusManager.get().clearFocus(scramRoot)
-        FocusManager.get().clearFocus(customRoot)
+        FocusManager.get().clearFocus(tourCustomRoot)
+        FocusManager.get().clearFocus(tourCustomRoot)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -189,7 +201,37 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 }
             }
             "submit2" -> {
+                AddressDialog(requireActivity(), 2).show()
+            }
+            "send" -> {
+                activity?.let { LoadingDialogManager.get().show(it) }
+                val data = DataHandleManager.get().handleData2(
+                    DataHandleManager.get()
+                        .getCurAllData2(tourID.getInputView().getEditTextContent(), getData()!!)
+                )
 
+                Thread {
+                    val result = EmailUtil.autoSendMail(
+                        (activity as MainActivity).getThemeText(2),
+                        data.toString(),
+                        msg[1] as String,
+                        UsefulSTMP.QQ,
+                        Constant.from,
+                        Constant.pwd,
+                        null
+                    )
+                    EventBus.getDefault().post(MessageEvent("result", result, 2))
+                }.start()
+            }
+            "result" -> {
+                LoadingDialogManager.get().close()
+                if (msg[1] as Boolean && msg[2] == 2) {
+                    DataHandleManager.get().deleteData("tour")
+                    clear()
+                    ToastUtils.s(activity, "发送成功")
+                } else {
+                    ToastUtils.s(activity, "发送失败")
+                }
             }
             "nameSelect" -> {
                 if (msg[1] == 2) {
@@ -206,6 +248,11 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                     MMKVUtils.saveKeys("tour", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())
                     clear()
+                }
+            }
+            "map" -> {
+                if (msg[1] == 2){
+                    tourLocation.getInputView().setEditTextContent("${msg[2]},${msg[3]}")
                 }
             }
         }

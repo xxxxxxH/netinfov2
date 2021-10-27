@@ -1,5 +1,6 @@
 package net.basicmodel.ui.activity
 
+import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
@@ -59,17 +60,6 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
             val p = OptionDialog(this)
             p.listener = this
             p.show()
-        }
-    }
-
-    fun showDlg() {
-        dialog = LoadingDialog(this)
-        dialog!!.show()
-    }
-
-    fun closeDlg() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog!!.dismiss()
         }
     }
 
