@@ -2,7 +2,6 @@ package net.basicmodel.widget
 
 import android.content.Context
 import android.view.View
-import com.flyco.animation.Attention.Swing
 import com.flyco.dialog.widget.base.BaseDialog
 import kotlinx.android.synthetic.main.layout_pop.*
 import net.basicmodel.R

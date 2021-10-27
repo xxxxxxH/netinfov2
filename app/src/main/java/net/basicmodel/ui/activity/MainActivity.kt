@@ -1,10 +1,8 @@
 package net.basicmodel.ui.activity
 
-import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
-import com.luck.picture.lib.tools.ToastUtils
 import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.activity_main.*
 import net.basicmodel.R
@@ -19,8 +17,6 @@ import net.basicmodel.utils.OptionClickListener
 import net.basicmodel.widget.LoadingDialog
 import net.basicmodel.widget.OptionDialog
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChangeListener,
@@ -147,12 +143,12 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
     }
 
     fun getThemeText(index: Int): String {
-        when(index){
+        when (index) {
             0 -> return "网元信息${MyLocationManager.get().formatDate(Date())}"
             1 -> return "加扰信息${MyLocationManager.get().formatDate(Date())}"
             2 -> return "光纤巡缆${MyLocationManager.get().formatDate(Date())}"
         }
-        return  ""
+        return ""
     }
 
 }

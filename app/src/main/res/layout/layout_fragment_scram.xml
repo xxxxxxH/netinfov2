@@ -23,12 +23,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />
 
-            <net.basicmodel.widget.InputEditText
-                android:id="@+id/childName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
-
             <net.basicmodel.widget.EditViewContainer
                 android:id="@+id/startTime"
                 android:layout_width="match_parent"
@@ -40,6 +34,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp" />
+
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/scramLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+
+            <net.basicmodel.widget.InputEditText
+                android:id="@+id/childName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
 
             <net.basicmodel.widget.InputEditText
                 android:id="@+id/rate"
@@ -53,11 +61,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp" />
 
-            <net.basicmodel.widget.EditViewContainer
-                android:id="@+id/scramLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

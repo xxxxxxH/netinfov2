@@ -14,9 +14,6 @@ import com.luck.picture.lib.tools.ToastUtils
 import com.tencent.mmkv.MMKV
 import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.layout_fragment_scram.*
-import kotlinx.android.synthetic.main.layout_fragment_scram.customRoot
-import kotlinx.android.synthetic.main.layout_fragment_scram.img_add
-import kotlinx.android.synthetic.main.layout_fragment_scram.img_recycler
 import net.basicmodel.R
 import net.basicmodel.adapter.ImageAdapter
 import net.basicmodel.base.BaseFragment
@@ -95,7 +92,7 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 if (it.action == MotionEvent.ACTION_DOWN) {
                     TimePickerManager.get().createTimePicker(
                         requireActivity(),
-                        "endTime",
+                        "end",
                         this@ScramFragment
                     ).show()
                 }
@@ -237,6 +234,12 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 entity.content = tag[2]
                 CustomFiledManager.get().addCustomItem(customRoot, entity)
             }
+            "time" -> {
+                MyLocationManager.get().formatDate(Date())?.let {
+                    startTime.getInputView().setEditTextContent(it)
+                    endTime.getInputView().setEditTextContent(it)
+                }
+            }
 
         }
     }
@@ -248,7 +251,10 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 startTime.getInputView().setEditTextContent(time)
                 startTime.getInputView().getEditTextView().clearFocus()
             }
-            "end" -> endTime.getInputView().setEditTextContent(time)
+            "end" -> {
+                endTime.getInputView().setEditTextContent(time)
+                endTime.getInputView().getEditTextView().clearFocus()
+            }
         }
     }
 
@@ -308,11 +314,11 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
             }
             "result" -> {
                 LoadingDialogManager.get().close()
-                if (msg[1] as Boolean && msg[2] == 1){
+                if (msg[1] as Boolean && msg[2] == 1) {
                     DataHandleManager.get().deleteData("scram")
                     clear()
                     ToastUtils.s(activity, "发送成功")
-                }else{
+                } else {
                     ToastUtils.s(activity, "发送失败")
                 }
             }
@@ -341,7 +347,7 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 }
             }
             "map" -> {
-                if (msg[1] == 1){
+                if (msg[1] == 1) {
                     scramLocation.getInputView().setEditTextContent("${msg[2]},${msg[3]}")
                 }
             }

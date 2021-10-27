@@ -26,9 +26,9 @@ import net.basicmodel.R;
 
 /**
  * Copyright (C) 2021,2021/5/28, a Tencent company. All rights reserved.
- *
+ * <p>
  * User : v_xhangxie
- *
+ * <p>
  * Desc :
  */
 public class GlideEngine implements ImageEngine {
@@ -58,8 +58,8 @@ public class GlideEngine implements ImageEngine {
      */
     @Override
     public void loadImage(@NonNull Context context, @NonNull String url,
-            @NonNull ImageView imageView,
-            SubsamplingScaleImageView longImageView, OnImageCompleteCallback callback) {
+                          @NonNull ImageView imageView,
+                          SubsamplingScaleImageView longImageView, OnImageCompleteCallback callback) {
         Glide.with(context)
                 .asBitmap()
                 .load(url)
@@ -120,8 +120,8 @@ public class GlideEngine implements ImageEngine {
      */
     @Override
     public void loadImage(@NonNull Context context, @NonNull String url,
-            @NonNull ImageView imageView,
-            SubsamplingScaleImageView longImageView) {
+                          @NonNull ImageView imageView,
+                          SubsamplingScaleImageView longImageView) {
         Glide.with(context)
                 .asBitmap()
                 .load(url)
@@ -189,7 +189,7 @@ public class GlideEngine implements ImageEngine {
      */
     @Override
     public void loadAsGifImage(@NonNull Context context, @NonNull String url,
-            @NonNull ImageView imageView) {
+                               @NonNull ImageView imageView) {
         Glide.with(context)
                 .asGif()
                 .load(url)

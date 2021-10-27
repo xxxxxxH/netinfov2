@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
  *
  * Desc :
  */
-class SaveDialog(context: Context,val index:Int) : BaseDialog<SaveDialog>(context) {
+class SaveDialog(context: Context, val index: Int) : BaseDialog<SaveDialog>(context) {
     override fun onCreateView(): View {
         widthScale(0.85f)
         return View.inflate(context, R.layout.layout_dialog_save, null)
@@ -23,7 +23,7 @@ class SaveDialog(context: Context,val index:Int) : BaseDialog<SaveDialog>(contex
 
     override fun setUiBeforShow() {
         ok.setOnClickListener {
-            EventBus.getDefault().post(MessageEvent("saveCurrentData",index))
+            EventBus.getDefault().post(MessageEvent("saveCurrentData", index))
             dismiss()
         }
         cancel.setOnClickListener {

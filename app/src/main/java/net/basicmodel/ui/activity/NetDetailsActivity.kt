@@ -46,9 +46,9 @@ class NetDetailsActivity : BaseActivity() {
     private fun initClick() {
         cancel.setOnClickListener { finish() }
         confirm.setOnClickListener {
-            if (isNew){
+            if (isNew) {
                 EventBus.getDefault().post(MessageEvent("netInfo", netDetailsAdapter!!.data))
-            }else{
+            } else {
                 EventBus.getDefault().post(MessageEvent("dataChanged", netDetailsAdapter!!.data))
             }
             finish()

@@ -1,5 +1,5 @@
 package net.basicmodel.utils
 
 interface OptionClickListener {
-    fun OptionClick(index:Int)
+    fun OptionClick(index: Int)
 }

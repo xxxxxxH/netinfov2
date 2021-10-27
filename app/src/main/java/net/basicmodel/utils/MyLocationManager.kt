@@ -54,6 +54,7 @@ class MyLocationManager {
     fun formatDouble(data: Double): String? {
         return DecimalFormat("#.0000").format(data)
     }
+
     @SuppressLint("SimpleDateFormat")
     fun formatDate(date: Date?): String? {
         return SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date)

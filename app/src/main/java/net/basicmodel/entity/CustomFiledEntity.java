@@ -8,15 +8,16 @@ public class CustomFiledEntity implements Parcelable {
     String name;
     String content;
 
-    public CustomFiledEntity(){}
+    public CustomFiledEntity() {
+    }
 
 
-    public CustomFiledEntity(String name, String content){
+    public CustomFiledEntity(String name, String content) {
         this.name = name;
         this.content = content;
     }
 
-    protected CustomFiledEntity(Parcel in){
+    protected CustomFiledEntity(Parcel in) {
         name = in.readString();
         content = in.readString();
     }

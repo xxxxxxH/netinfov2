@@ -31,6 +31,7 @@ class PhotoManager {
                         listener.gallery(this as ArrayList<LocalMedia>)
                     }
                 }
+
                 override fun onCancel() {
                 }
             })
@@ -47,6 +48,7 @@ class PhotoManager {
                         listener.camera(path)
                     }
                 }
+
                 override fun onCancel() {
                 }
             })

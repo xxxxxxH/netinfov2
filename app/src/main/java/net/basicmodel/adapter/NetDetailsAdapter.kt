@@ -8,7 +8,7 @@ import net.basicmodel.R
 import net.basicmodel.entity.NetDetailsEntity
 import net.basicmodel.widget.InputEditText
 
-class NetDetailsAdapter(layoutResId: Int, data: ArrayList<NetDetailsEntity>,val isNew:Boolean) :
+class NetDetailsAdapter(layoutResId: Int, data: ArrayList<NetDetailsEntity>, val isNew: Boolean) :
     BaseQuickAdapter<NetDetailsEntity, BaseViewHolder>(layoutResId, data) {
     override fun convert(holder: BaseViewHolder, item: NetDetailsEntity) {
         val itemNetBoard = holder.getView<InputEditText>(R.id.itemNetBoard)
@@ -19,12 +19,12 @@ class NetDetailsAdapter(layoutResId: Int, data: ArrayList<NetDetailsEntity>,val 
         itemNetBoard.view!!.isEnabled = false
         itemNetPort1.setHint("端口对应光缆编号1")
         itemNetPort2.setHint("端口对应光缆编号2")
-        if (!isNew){
+        if (!isNew) {
             itemNetBoard.setEditTextContent(item.netDetailsBoardName)
             itemNetPort1.setEditTextContent(item.netDetailsPort1)
             itemNetPort2.setEditTextContent(item.netDetailsPort2)
         }
-        itemNetPort1.view!!.addTextChangedListener(object :TextWatcher{
+        itemNetPort1.view!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -37,7 +37,7 @@ class NetDetailsAdapter(layoutResId: Int, data: ArrayList<NetDetailsEntity>,val 
                 item.netDetailsPort1 = p0.toString()
             }
         })
-        itemNetPort2.view!!.addTextChangedListener(object :TextWatcher{
+        itemNetPort2.view!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }

@@ -37,7 +37,7 @@ class DataHandleManager {
     fun getCurAllData0(key: String, curEntityNew: NetInfoEntityNew): ArrayList<NetInfoEntityNew> {
         val result = ArrayList<NetInfoEntityNew>()
         val entityNew = getCurData0(key)
-        if (entityNew == null){
+        if (entityNew == null) {
             result.add(curEntityNew)
         }
         val keySet = MMKV.defaultMMKV()!!.decodeStringSet("net")
@@ -62,7 +62,7 @@ class DataHandleManager {
     fun getCurAllData1(key: String, curEntityNew: ScramEntityNew): ArrayList<ScramEntityNew> {
         val result = ArrayList<ScramEntityNew>()
         val entityNew = getCurData1(key)
-        if (entityNew == null){
+        if (entityNew == null) {
             result.add(curEntityNew)
         }
         val keySet = MMKV.defaultMMKV()!!.decodeStringSet("net")
@@ -79,7 +79,7 @@ class DataHandleManager {
     fun getCurAllData2(key: String, curEntityNew: TourEntityNew): ArrayList<TourEntityNew> {
         val result = ArrayList<TourEntityNew>()
         val entityNew = getCurData2(key)
-        if (entityNew == null){
+        if (entityNew == null) {
             result.add(curEntityNew)
         }
         val keySet = MMKV.defaultMMKV()!!.decodeStringSet("net")
@@ -109,10 +109,10 @@ class DataHandleManager {
         return result
     }
 
-    fun deleteData(key: String){
+    fun deleteData(key: String) {
         val keySet = MMKV.defaultMMKV()!!.decodeStringSet(key)
-        if (keySet!=null){
-            for (item in keySet){
+        if (keySet != null) {
+            for (item in keySet) {
                 MMKV.defaultMMKV()!!.removeValueForKey(item)
             }
             keySet.clear()

@@ -16,16 +16,16 @@ class DataOptionManager {
         }
     }
 
-    fun add(){
+    fun add() {
 
     }
 
-    fun delete(){
+    fun delete() {
 
     }
 
-    fun save(index:Int){
-        when(index){
+    fun save(index: Int) {
+        when (index) {
             0 -> {
 
             }
@@ -38,7 +38,7 @@ class DataOptionManager {
         }
     }
 
-    fun submit(){
+    fun submit() {
 
     }
 }

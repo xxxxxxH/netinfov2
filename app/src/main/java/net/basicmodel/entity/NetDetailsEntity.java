@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class NetDetailsEntity implements Parcelable {
-    String netDetailsBoardName="";
-    String netDetailsPort1="";
-    String netDetailsPort2="";
-    int index=0;
+    String netDetailsBoardName = "";
+    String netDetailsPort1 = "";
+    String netDetailsPort2 = "";
+    int index = 0;
 
     public NetDetailsEntity() {
     }

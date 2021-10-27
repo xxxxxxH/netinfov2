@@ -251,7 +251,7 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 }
             }
             "map" -> {
-                if (msg[1] == 2){
+                if (msg[1] == 2) {
                     tourLocation.getInputView().setEditTextContent("${msg[2]},${msg[3]}")
                 }
             }

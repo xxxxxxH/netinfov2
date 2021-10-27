@@ -8,6 +8,6 @@ package net.basicmodel.utils
  * Desc :
  */
 interface TimeSelectListener {
-    fun timeSelect(flag:String,time:String)
+    fun timeSelect(flag: String, time: String)
     fun dialogDismiss()
 }

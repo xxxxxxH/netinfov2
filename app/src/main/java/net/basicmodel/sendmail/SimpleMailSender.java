@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Properties;
-
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -24,9 +20,9 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  * Copyright (C) 2021,2021/5/21, a Tencent company. All rights reserved.
- *
+ * <p>
  * User : v_xhangxie
- *
+ * <p>
  * Desc :
  */
 public class SimpleMailSender {
@@ -104,7 +100,7 @@ public class SimpleMailSender {
             // 添加附件体
             BodyPart messageBodyPart = new MimeBodyPart();
             // 设置邮件消息的主要内容
-            messageBodyPart.setContent(mailInfo.getContent(),  "text/html;charset=utf-8");
+            messageBodyPart.setContent(mailInfo.getContent(), "text/html;charset=utf-8");
             MimeMultipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
             for (int i = 0; i < filePath.length; i++) {

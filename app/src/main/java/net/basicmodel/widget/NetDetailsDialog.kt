@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.InputType
 import android.text.TextUtils
 import android.view.View
-import com.flyco.animation.Attention.Swing
 import com.flyco.dialog.widget.base.BaseDialog
 import kotlinx.android.synthetic.main.layout_dialog_net.*
 import net.basicmodel.R

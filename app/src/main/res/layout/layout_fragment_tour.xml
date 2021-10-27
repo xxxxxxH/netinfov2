@@ -19,6 +19,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />
 
+            <net.basicmodel.widget.EditViewContainer
+                android:id="@+id/tourLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
             <net.basicmodel.widget.InputEditText
                 android:id="@+id/tourCode"
                 android:layout_width="match_parent"
@@ -31,11 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp" />
 
-            <net.basicmodel.widget.EditViewContainer
-                android:id="@+id/tourLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -77,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

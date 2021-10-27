@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import java.util.ArrayList
 
-abstract class BaseFragment:Fragment() {
+abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(getLayoutId(),container,false)
+        return inflater.inflate(getLayoutId(), container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,5 +23,5 @@ abstract class BaseFragment:Fragment() {
 
     abstract fun initView()
 
-    abstract fun getLayoutId():Int
+    abstract fun getLayoutId(): Int
 }
