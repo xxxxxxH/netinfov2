@@ -1,6 +1,8 @@
 package com.xxxxxxh.mailv2.utils
 
 import android.Manifest
+import android.os.Environment
+import java.io.File
 
 object Constant {
     var permission = arrayOf(
@@ -16,4 +18,6 @@ object Constant {
     val pwd = "urdbxnpynumvbjei"
     var from = "425270071@qq.com"
     var to = "1758053745@qq.com"
+
+    val filePath:String = Environment.getExternalStorageDirectory().toString() + File.separator + "netinfov2"
 }

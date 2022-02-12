@@ -276,6 +276,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 if (!TextUtils.isEmpty(s)) {
                     MMKVUtils.saveKeys("net", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())
+                    FileUtils.saveFile(activity, getData().toString(), "${s}.txt")
                 } else {
                     ToastUtils.s(activity, "请输入网元名称")
                 }

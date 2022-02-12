@@ -287,6 +287,7 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 if (!TextUtils.isEmpty(s)) {
                     MMKVUtils.saveKeys("scram", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())
+                    FileUtils.saveFile(activity, getData().toString(), "${s}.txt")
                 }
             }
             "submit1" -> {

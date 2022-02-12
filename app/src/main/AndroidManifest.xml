@@ -36,6 +36,9 @@
         <service
             android:name="com.amap.api.location.APSService"
             android:foregroundServiceType="location" />
+
+        <activity android:name="com.amap.api.maps.offlinemap.OfflineMapActivity"
+            android:screenOrientation="portrait"  />
     </application>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

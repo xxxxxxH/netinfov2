@@ -198,6 +198,7 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 if (!TextUtils.isEmpty(s)) {
                     MMKVUtils.saveKeys("tour", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())
+                    FileUtils.saveFile(activity, getData().toString(), "${s}.txt")
                 }
             }
             "submit2" -> {
