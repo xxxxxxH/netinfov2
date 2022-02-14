@@ -24,13 +24,7 @@ import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 
 import net.basicmodel.R;
 
-/**
- * Copyright (C) 2021,2021/5/28, a Tencent company. All rights reserved.
- * <p>
- * User : v_xhangxie
- * <p>
- * Desc :
- */
+
 public class GlideEngine implements ImageEngine {
     /**
      * 加载图片

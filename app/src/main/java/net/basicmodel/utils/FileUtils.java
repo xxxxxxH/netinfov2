@@ -37,6 +37,14 @@ public class FileUtils {
         }
     }
 
+    public static void deleteFile(Context context,String fileName){
+        File f = new File(Constant.INSTANCE.getFilePath() + File.separator + fileName);
+        if (f.exists()){
+            f.delete();
+            Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public static String readrFile(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {

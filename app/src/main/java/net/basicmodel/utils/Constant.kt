@@ -20,4 +20,6 @@ object Constant {
     var to = "1758053745@qq.com"
 
     val filePath:String = Environment.getExternalStorageDirectory().toString() + File.separator + "netinfov2"
+
+    const val E_MAIL_PACKAGE_NAME = "com.tencent.androidqqmail"
 }

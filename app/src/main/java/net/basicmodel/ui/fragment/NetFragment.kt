@@ -294,6 +294,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 MMKV.defaultMMKV()!!.remove(name.getInputView().getEditTextContent())
                 MMKVUtils.deleteKey(name.getInputView().getEditTextContent(), "net")
                 clear()
+                FileUtils.deleteFile(activity,name.getInputView().getEditTextContent())
             }
             "add" -> {
                 val d = activity?.let { SaveDialog(it, 0) }
@@ -312,7 +313,10 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 }
             }
             "submit" -> {
-                AddressDialog(requireActivity(), 0).show()
+//                AddressDialog(requireActivity(), 0).show()
+                val i = Intent()
+                i.setPackage(Constant.E_MAIL_PACKAGE_NAME)
+                startActivity(i)
             }
             "send" -> {
                 activity?.let { LoadingDialogManager.get().show(it) }

@@ -9,13 +9,6 @@ import android.widget.LinearLayout
 import com.google.android.material.textfield.TextInputLayout
 import net.basicmodel.R
 
-/**
- * Copyright (C) 2021,2021/10/20, a Tencent company. All rights reserved.
- *
- * User : v_xhangxie
- *
- * Desc :
- */
 class InputEditText : LinearLayout {
     var view: EditText? = null
     var input: TextInputLayout? = null

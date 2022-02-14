@@ -189,12 +189,14 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 d!!.show()
             }
             "delete2" -> {
-                MMKV.defaultMMKV()!!.remove(tourID.getInputView().getEditTextContent())
-                MMKVUtils.deleteKey(tourID.getInputView().getEditTextContent(), "tour")
+                tourCode.getEditTextContent()
+                MMKV.defaultMMKV()!!.remove(tourCode.getEditTextContent())
+                MMKVUtils.deleteKey(tourCode.getEditTextContent(), "tour")
                 clear()
+                FileUtils.deleteFile(activity, tourCode.getEditTextContent())
             }
             "save2" -> {
-                val s = tourID.getInputView().getEditTextContent()
+                val s = tourCode.getEditTextContent()
                 if (!TextUtils.isEmpty(s)) {
                     MMKVUtils.saveKeys("tour", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())
@@ -202,13 +204,16 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 }
             }
             "submit2" -> {
-                AddressDialog(requireActivity(), 2).show()
+//                AddressDialog(requireActivity(), 2).show()
+                val i = Intent()
+                i.setPackage(Constant.E_MAIL_PACKAGE_NAME)
+                startActivity(i)
             }
             "send" -> {
                 activity?.let { LoadingDialogManager.get().show(it) }
                 val data = DataHandleManager.get().handleData2(
                     DataHandleManager.get()
-                        .getCurAllData2(tourID.getInputView().getEditTextContent(), getData()!!)
+                        .getCurAllData2(tourCode.getEditTextContent(), getData()!!)
                 )
 
                 Thread {

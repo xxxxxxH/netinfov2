@@ -2,13 +2,7 @@ package net.basicmodel.sendmail;
 
 import java.util.Properties;
 
-/**
- * Copyright (C) 2021,2021/5/21, a Tencent company. All rights reserved.
- * <p>
- * User : v_xhangxie
- * <p>
- * Desc :
- */
+
 public class MailSenderInfo {
     private String mailServerHost;
     private String mailServerPort = "25";

@@ -8,13 +8,7 @@ import net.basicmodel.R
 import net.basicmodel.event.MessageEvent
 import org.greenrobot.eventbus.EventBus
 
-/**
- * Copyright (C) 2021,2021/10/26, a Tencent company. All rights reserved.
- *
- * User : v_xhangxie
- *
- * Desc :
- */
+
 class SaveDialog(context: Context, val index: Int) : BaseDialog<SaveDialog>(context) {
     override fun onCreateView(): View {
         widthScale(0.85f)

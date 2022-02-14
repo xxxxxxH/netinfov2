@@ -4,13 +4,7 @@ import android.view.ViewGroup
 import net.basicmodel.widget.EditViewContainer
 import net.basicmodel.widget.InputEditText
 
-/**
- * Copyright (C) 2021,2021/10/26, a Tencent company. All rights reserved.
- *
- * User : v_xhangxie
- *
- * Desc :
- */
+
 class FocusManager {
     companion object {
         private var i: FocusManager? = null

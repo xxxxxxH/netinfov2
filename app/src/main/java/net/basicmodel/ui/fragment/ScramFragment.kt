@@ -13,7 +13,11 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.tools.ToastUtils
 import com.tencent.mmkv.MMKV
 import com.xxxxxxh.mailv2.utils.Constant
+import kotlinx.android.synthetic.main.layout_fragment_net.*
 import kotlinx.android.synthetic.main.layout_fragment_scram.*
+import kotlinx.android.synthetic.main.layout_fragment_scram.customRoot
+import kotlinx.android.synthetic.main.layout_fragment_scram.img_add
+import kotlinx.android.synthetic.main.layout_fragment_scram.img_recycler
 import net.basicmodel.R
 import net.basicmodel.adapter.ImageAdapter
 import net.basicmodel.base.BaseFragment
@@ -281,6 +285,7 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 MMKV.defaultMMKV()!!.remove(scramId.getInputView().getEditTextContent())
                 MMKVUtils.deleteKey(scramId.getInputView().getEditTextContent(), "scram")
                 clear()
+                FileUtils.deleteFile(activity,scramId.getInputView().getEditTextContent())
             }
             "save1" -> {
                 val s = scramId.getInputView().getEditTextContent()
@@ -291,7 +296,10 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
                 }
             }
             "submit1" -> {
-                AddressDialog(requireActivity(), 1).show()
+//                AddressDialog(requireActivity(), 1).show()
+                val i = Intent()
+                i.setPackage(Constant.E_MAIL_PACKAGE_NAME)
+                startActivity(i)
             }
             "send" -> {
                 activity?.let { LoadingDialogManager.get().show(it) }

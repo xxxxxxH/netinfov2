@@ -5,13 +5,7 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.view.TimePickerView
 import java.util.*
 
-/**
- * Copyright (C) 2021,2021/10/26, a Tencent company. All rights reserved.
- *
- * User : v_xhangxie
- *
- * Desc :
- */
+
 class TimePickerManager {
     companion object {
         private var i: TimePickerManager? = null

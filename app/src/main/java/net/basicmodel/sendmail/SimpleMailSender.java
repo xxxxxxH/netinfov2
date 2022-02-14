@@ -18,13 +18,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 
-/**
- * Copyright (C) 2021,2021/5/21, a Tencent company. All rights reserved.
- * <p>
- * User : v_xhangxie
- * <p>
- * Desc :
- */
 public class SimpleMailSender {
     /**
      * 以文本格式发送邮件

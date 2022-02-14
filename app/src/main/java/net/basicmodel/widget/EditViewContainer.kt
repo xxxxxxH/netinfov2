@@ -9,13 +9,7 @@ import android.widget.LinearLayout
 import net.basicmodel.R
 import net.basicmodel.utils.OnOptionClickListener
 
-/**
- * Copyright (C) 2021,2021/10/20, a Tencent company. All rights reserved.
- *
- * User : v_xhangxie
- *
- * Desc :
- */
+
 class EditViewContainer : LinearLayout {
     private var inputEditText: InputEditText? = null
     private var imageView: ImageView? = null
