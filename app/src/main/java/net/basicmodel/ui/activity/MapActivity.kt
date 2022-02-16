@@ -3,10 +3,12 @@ package net.basicmodel.ui.activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.maps.*
 import com.amap.api.maps.model.*
+import com.xxxxxxh.mailv2.utils.Constant
 import kotlinx.android.synthetic.main.layout_activity_map.*
 import net.basicmodel.R
 import net.basicmodel.event.MessageEvent
@@ -36,6 +38,7 @@ class MapActivity : AppCompatActivity(), AMap.OnMapLoadedListener, AMap.OnMarker
         setContentView(R.layout.layout_activity_map)
         mMapView = findViewById(R.id.map)
         mMapView!!.onCreate(savedInstanceState)
+
 
 
         initMap()
@@ -74,7 +77,7 @@ class MapActivity : AppCompatActivity(), AMap.OnMapLoadedListener, AMap.OnMarker
         map_offline.setOnClickListener {
             startActivity(
                 Intent(
-                    this.applicationContext,
+                    this,
                     com.amap.api.maps.offlinemap.OfflineMapActivity::class.java
                 )
             )

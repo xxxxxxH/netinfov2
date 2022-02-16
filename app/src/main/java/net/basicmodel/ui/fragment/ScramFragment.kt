@@ -6,6 +6,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.os.Build
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +42,10 @@ class ScramFragment : BaseFragment(), LocationListener, OnOptionClickListener, P
     var imgAdapter: ImageAdapter? = null
     override fun initView() {
         EventBus.getDefault().register(this)
-        activity?.let { MyLocationManager.get().getLocation(it, this) }
+        activity?.let {
+            if (Constant.isOPen(it)) {
+                MyLocationManager.get().getLocation(it, this)
+            } }
         initContainer()
         initClick()
     }

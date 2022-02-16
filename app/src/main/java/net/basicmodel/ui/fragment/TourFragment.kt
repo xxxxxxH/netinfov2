@@ -5,6 +5,7 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.luck.picture.lib.entity.LocalMedia
@@ -32,7 +33,9 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
     var imgAdapter: ImageAdapter? = null
     override fun initView() {
         EventBus.getDefault().register(this)
-        activity?.let { MyLocationManager.get().getLocation(it, this) }
+        activity?.let { if (Constant.isOPen(it)) {
+            MyLocationManager.get().getLocation(it, this)
+        } }
         initContainer()
         initClick()
     }
@@ -42,11 +45,11 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
     }
 
     private fun initContainer() {
-        tourID.getInputView().setHint("ID")
+        tourID.getInputView().setHint("桩号")
         tourID.getOptionView().setImageResource(R.mipmap.arrow_down)
         tourID.setTag("tourDrop")
         tourID.setListener(this)
-        tourCode.setHint("桩号")
+//        tourCode.setHint("桩号")
         tourPoint.setHint("站点")
         tourLocation.getInputView().setHint("经纬度")
         tourLocation.getOptionView().setImageResource(R.mipmap.activity_main_refresh_icon)
@@ -189,14 +192,14 @@ class TourFragment : BaseFragment(), OnOptionClickListener, LocationListener, Ph
                 d!!.show()
             }
             "delete2" -> {
-                tourCode.getEditTextContent()
-                MMKV.defaultMMKV()!!.remove(tourCode.getEditTextContent())
-                MMKVUtils.deleteKey(tourCode.getEditTextContent(), "tour")
+                tourID.getInputView().getEditTextContent()
+                MMKV.defaultMMKV()!!.remove(tourID.getInputView().getEditTextContent())
+                MMKVUtils.deleteKey(tourID.getInputView().getEditTextContent(), "tour")
                 clear()
-                FileUtils.deleteFile(activity, tourCode.getEditTextContent())
+                FileUtils.deleteFile(activity, tourID.getInputView().getEditTextContent())
             }
             "save2" -> {
-                val s = tourCode.getEditTextContent()
+                val s = tourID.getInputView().getEditTextContent()
                 if (!TextUtils.isEmpty(s)) {
                     MMKVUtils.saveKeys("tour", s)
                     MMKV.defaultMMKV()!!.encode(s, getData())

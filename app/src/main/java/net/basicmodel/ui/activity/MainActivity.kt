@@ -1,5 +1,6 @@
 package net.basicmodel.ui.activity
 
+import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
@@ -48,7 +49,7 @@ class MainActivity : BaseActivity(), OnPermissionCallback, ViewPager.OnPageChang
         scramFragment = ScramFragment()
         tourFragment = TourFragment()
         views.add(netFragment!!)
-        views.add(scramFragment!!)
+//        views.add(scramFragment!!)
         views.add(tourFragment!!)
         tab.setViewPager(viewpager, Constant.tab, this, views)
         viewpager.setOnPageChangeListener(this)

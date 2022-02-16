@@ -5,6 +5,7 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -41,7 +42,11 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
     var onItem: Boolean = false
     override fun initView() {
         EventBus.getDefault().register(this)
-        activity?.let { MyLocationManager.get().getLocation(it, this) }
+        activity?.let {
+            if (Constant.isOPen(it)) {
+                MyLocationManager.get().getLocation(it, this)
+            }
+        }
         initContainer()
         initClick()
     }
@@ -131,6 +136,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
 
     @SuppressLint("SetTextI18n")
     override fun onLocationChanged(p0: Location) {
+        Log.i("xxxxxxH", "onLocationChanged1")
         LoadingDialogManager.get().close()
         if (TextUtils.isEmpty(location.getInputView().getEditTextContent())) {
             location.getInputView().setEditTextContent(
@@ -294,7 +300,7 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
                 MMKV.defaultMMKV()!!.remove(name.getInputView().getEditTextContent())
                 MMKVUtils.deleteKey(name.getInputView().getEditTextContent(), "net")
                 clear()
-                FileUtils.deleteFile(activity,name.getInputView().getEditTextContent())
+                FileUtils.deleteFile(activity, name.getInputView().getEditTextContent())
             }
             "add" -> {
                 val d = activity?.let { SaveDialog(it, 0) }
@@ -314,9 +320,11 @@ class NetFragment : BaseFragment(), OnOptionClickListener, LocationListener, OnD
             }
             "submit" -> {
 //                AddressDialog(requireActivity(), 0).show()
-                val i = Intent()
-                i.setPackage(Constant.E_MAIL_PACKAGE_NAME)
-                startActivity(i)
+                val intent: Intent? = requireActivity().packageManager.getLaunchIntentForPackage(Constant.E_MAIL_PACKAGE_NAME)
+                if (intent != null) {
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
             }
             "send" -> {
                 activity?.let { LoadingDialogManager.get().show(it) }
